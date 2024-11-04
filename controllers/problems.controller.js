@@ -5,7 +5,7 @@ const Problem = require("../models/problem.model");
 
 const getProblem = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query; // Default to page 1 and limit 10 if not provided
+    const { page = 1, limit = 5 } = req.query; // Default to page 1 and limit 10 if not provided
 
     const problem = await Problem.find({})
       .skip((page - 1) * limit) // Skip documents for previous pages
