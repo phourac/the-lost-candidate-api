@@ -11,7 +11,10 @@ const problemRoute = require("./routes/problem.route");
 const app = express();
 
 // Middleware
-app.use(cors()); // Allow requests from any origin
+// app.use(cors()); // Allow requests from any origin
+app.use(cors({
+  origin: ['http://localhost:3000', 'thelostcandidate.netlify.app'], 
+}));
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: false })); // Parse URL-encoded bodies
 
