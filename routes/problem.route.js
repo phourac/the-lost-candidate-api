@@ -5,7 +5,7 @@ const {
   getProblem,
   getProblemDetail,
   createProblem,
-  updateProlem,
+  updateProblem,
   deleteProblem,
 } = require("../controllers/problems.controller");
 
@@ -17,7 +17,7 @@ router.get("/:id", getProblemDetail);
 // //create product
 router.post("/", createProblem);
 // //update product
-router.put("/:id", updateProlem);
+router.put("/:id", updateProblem);
 // //delete product
 router.delete("/:id", deleteProblem);
 

@@ -10,7 +10,7 @@ const {
   createLinkSocialMedia,
   deleteSocialMedia,
   getLinkSocialMedia,
-  updateSocailMedia,
+  updateSocialMedia,
   getSocialMediaDetail,
 } = require("../controllers/linkSocialMedia.controller");
 
@@ -22,7 +22,7 @@ router.get("/:id", getSocialMediaDetail);
 // //create product
 router.post("/", createLinkSocialMedia);
 // //update product
-router.put("/:id", updateSocailMedia);
+router.put("/:id", updateSocialMedia);
 // //delete product
 router.delete("/:id", deleteSocialMedia);
 
