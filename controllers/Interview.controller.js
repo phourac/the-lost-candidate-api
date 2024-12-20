@@ -2,20 +2,24 @@ const Interview = require("../models/Interview.model");
 
 const getInterview = async (req, res) => {
   try {
+    // Get the page and limit from query params, with defaults if not provided
     const { page = 1, limit = 5 } = req.query;
+    
+    // Ensure limit is a valid number
+    const limitNumber = Math.abs(Number(limit)) || 5;  // Default to 5 if invalid
 
     const interviews = await Interview.find({})
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+      .skip((page - 1) * limitNumber)  // Skip documents for previous pages
+      .limit(limitNumber);  // Limit the number of documents returned
 
-    const totalDocuments = await Interview.countDocuments();
-    const totalPages = Math.ceil(totalDocuments / limit);
+    const totalDocuments = await Interview.countDocuments();  // Get total number of documents
+    const totalPages = Math.ceil(totalDocuments / limitNumber);  // Calculate total pages
 
     res.status(200).json({
       status: 200,
       message: "Success",
       data: interviews,
-      meta: { currentPage: Number(page), totalPages, totalDocuments },
+      meta: { currentPage: Number(page), totalPages, totalDocuments, limit: limitNumber },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

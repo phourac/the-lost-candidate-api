@@ -2,25 +2,36 @@ const Problem = require("../models/problem.model");
 
 const getProblem = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
+    const { page = 1, limit = 5 } = req.query;  // Default to 1 for page and 5 for limit if not provided
+    
+    // Ensure limit is a valid number and is positive
+    const limitNumber = Math.abs(Number(limit)) || 5;  // Default to 5 if invalid
 
+    // Fetch problems from the database with pagination
     const problems = await Problem.find({})
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+      .skip((page - 1) * limitNumber)  // Skip documents for previous pages
+      .limit(limitNumber);  // Limit the number of documents returned
 
-    const totalDocuments = await Problem.countDocuments();
-    const totalPages = Math.ceil(totalDocuments / limit);
+    // Get total number of documents in the collection
+    const totalDocuments = await Problem.countDocuments(); 
+    const totalPages = Math.ceil(totalDocuments / limitNumber);  // Calculate total pages
 
     res.status(200).json({
       status: 200,
       message: "Success",
       data: problems,
-      meta: { currentPage: Number(page), totalPages, totalDocuments },
+      meta: {
+        currentPage: Number(page),
+        totalPages,
+        totalDocuments,
+        limit: limitNumber,  // Include the limit in the meta information
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const getProblemDetail = async (req, res) => {
   try {
